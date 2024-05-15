@@ -4,8 +4,14 @@ namespace Physics_Window_Manager.Main
 {
 	class MainWindow
 	{
-		static void Main()
+		static void Main(string [] args)
 		{
+			if (args.Length > 0 && args [0] == "--kill")
+			{
+				KillAll.Kill();
+				Environment.Exit(0);
+			}
+
 			List<Thread> threads = [];
 			List<int> oldProcessData = [];
 			for (int i = 0; i < 1000; i++)
