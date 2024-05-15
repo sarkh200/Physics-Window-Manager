@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
 
-namespace Physics_Window_Manager.Window
+namespace Physics_Window_Manager.WindowManagement
 {
 	internal class FindWindows
 	{

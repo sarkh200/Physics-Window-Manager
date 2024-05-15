@@ -1,4 +1,6 @@
-﻿using Physics_Window_Manager.Window;
+﻿using Physics_Window_Manager.WindowManagement;
+using System.Diagnostics;
+using System.Windows.Automation;
 
 namespace Physics_Window_Manager.Main
 {
@@ -14,25 +16,34 @@ namespace Physics_Window_Manager.Main
 
 			List<Thread> threads = [];
 			List<int> oldProcessData = [];
-			for (int i = 0; i < 1000; i++)
+
+			Automation.AddAutomationEventHandler(
+						eventId: WindowPattern.WindowOpenedEvent,
+						element: AutomationElement.RootElement,
+						scope: TreeScope.Children,
+						eventHandler: WindowOpened);
+
+			ProcessDataManager.SetUpProcessDataArray(out ProcessData [] graphicalProcessData);
+			foreach (ProcessData data in graphicalProcessData)
 			{
-				ProcessDataManager.SetUpProcessDataArray(out ProcessData [] graphicalProcessData);
-				foreach (ProcessData data in graphicalProcessData)
+				Thread t = new(() => WindowManagement.ProcessThread.Process(data));
+				t.Start();
+			}
+			while (true)
+			{
+				Thread.Sleep(1000);
+			}
+
+			void WindowOpened(object sender, AutomationEventArgs automationEventArgs)
+			{
+				var element = sender as AutomationElement;
+				if (element != null)
 				{
-					//Console.WriteLine(data.DataProcess.ProcessName);
-					if (!oldProcessData.Contains(data.DataProcess.Id) && data.DataProcess.ProcessName == "WindowsTerminal")
-					{
-						Thread t = new(() => ProcessThread.Process(data));
-						t.Start();
-						threads.Add(t);
-					}
+					Process p = Process.GetProcessById(element.Current.ProcessId);
+					ProcessData data = new() { DataProcess = p };
+					Thread t = new(() => WindowManagement.ProcessThread.Process(data));
+					t.Start();
 				}
-				oldProcessData = [];
-				foreach (ProcessData data in graphicalProcessData)
-				{
-					oldProcessData.Add(data.DataProcess.Id);
-				}
-				Thread.Sleep(300);
 			}
 		}
 	}

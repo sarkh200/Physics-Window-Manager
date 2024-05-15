@@ -1,4 +1,4 @@
-﻿namespace Physics_Window_Manager.Window
+﻿namespace Physics_Window_Manager.WindowManagement
 {
 
 	internal partial class ProcessData

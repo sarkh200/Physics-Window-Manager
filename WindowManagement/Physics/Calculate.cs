@@ -1,4 +1,4 @@
-﻿namespace Physics_Window_Manager.Window.Physics
+﻿namespace Physics_Window_Manager.WindowManagement.Physics
 {
 	internal class Calculate
 	{
