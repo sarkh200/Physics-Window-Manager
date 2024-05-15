@@ -6,7 +6,9 @@ namespace Physics_Window_Manager.WindowManagement
 	{
 		public static void Process(ProcessData data)
 		{
-			data.Velocity = (1, 1);
+			int [] velocityOptions = [-1, 1];
+			Random random = new();
+			data.Velocity = (velocityOptions [random.Next(velocityOptions.Length)], velocityOptions [random.Next(velocityOptions.Length)]);
 			try
 			{
 				_ = data.DataProcess.HasExited;
