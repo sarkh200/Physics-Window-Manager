@@ -4,16 +4,11 @@ namespace Physics_Window_Manager.Main
 {
 	class MainWindow
 	{
-		static void Main(string [] args)
+		static void Main()
 		{
-			if (args.Length > 1 && args [1] == "kill")
-			{
-				KillAll.Kill();
-			}
-
 			List<Thread> threads = [];
 			List<int> oldProcessData = [];
-			while (true)
+			for (int i = 0; i < 1000; i++)
 			{
 				ProcessDataManager.SetUpProcessDataArray(out ProcessData [] graphicalProcessData);
 				foreach (ProcessData data in graphicalProcessData)
@@ -31,7 +26,7 @@ namespace Physics_Window_Manager.Main
 				{
 					oldProcessData.Add(data.DataProcess.Id);
 				}
-				Thread.Sleep(1000);
+				Thread.Sleep(300);
 			}
 		}
 	}
