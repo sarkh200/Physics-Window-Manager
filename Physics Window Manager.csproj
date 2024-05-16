@@ -8,6 +8,7 @@
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
     <UseWindowsForms>True</UseWindowsForms>
+    <AssemblyName>gravify</AssemblyName>
   </PropertyGroup>
 
 </Project>
