@@ -6,26 +6,13 @@ namespace Physics_Window_Manager.WindowManagement
 
 	internal partial class ProcessData
 	{
-		[DllImport("user32.dll")]
-		public static extern bool GetWindowRect(IntPtr hwnd, out RECT rectangle);
-
-		//[DllImport("dwmapi.dll")]
-		//public static extern int DwmGetWindowAttribute(IntPtr hwnd, DWMWINDOWATTRIBUTE dwAttribute, out RECT pvAttribute, int cbAttribute);
-		//[DllImport("user32.dll")]
-		//private static extern int MonitorFromWindow(IntPtr hWnd, uint nIndex);
-		//const uint MONITOR_DEFAULTTONULL = 0x00000000;
-		//const uint MONITOR_DEFAULTTOPRIMARY = 0x00000001;
-		//const uint MONITOR_DEFAULTTONEAREST = 0x00000002;
-		//[DllImport("user32.dll")]
-		//private static extern bool GetMonitorInfoA(IntPtr hMonitor, out MONITORINFO info);
-
 		required public Process DataProcess { get; set; }
 
-		//GetMonitorInfoA(MonitorFromWindow(process.MainWindowHandle, MONITOR_DEFAULTTOPRIMARY), out MONITORINFO info);
+		public (int x, int y) Velocity = (0, 0);
 
 		public Screen MainScreen => Screen.FromHandle(DataProcess.MainWindowHandle);
 
-		public (int width, int height) ScreenDims => ((int) MainScreen.WorkingArea.Width, (int) MainScreen.WorkingArea.Height);
+		public (int width, int height) ScreenDims => (MainScreen.WorkingArea.Width, MainScreen.WorkingArea.Height);
 
 		public (int widht, int height) WindowDims => (WindowRect.Right - WindowRect.Left, WindowRect.Bottom - WindowRect.Top);
 
@@ -37,8 +24,6 @@ namespace Physics_Window_Manager.WindowManagement
 				return (windowRect.Left, windowRect.Top);
 			}
 		}
-
-		public (int x, int y) Velocity = (1, 1);//TEMP
 
 		public RECT WindowRect
 		{
@@ -64,40 +49,12 @@ namespace Physics_Window_Manager.WindowManagement
 			}
 		}
 
-		internal enum WindowState: int
-		{
-			Normal = 0,
-			Maximized = 1,
-			Minimized = 2,
-		}
-
 		private static WINDOWPLACEMENT GetPlacement(IntPtr hwnd)
 		{
 			WINDOWPLACEMENT placement = new();
 			placement.length = Marshal.SizeOf(placement);
 			GetWindowPlacement(hwnd, ref placement);
 			return placement;
-		}
-
-		[DllImport("user32.dll")]
-		internal static extern bool GetWindowPlacement(IntPtr hWnd, ref WINDOWPLACEMENT lpwndpl);
-
-		internal struct WINDOWPLACEMENT
-		{
-			public int length;
-			public int flags;
-			public ShowWindowCommands showCmd;
-			public System.Drawing.Point ptMinPosition;
-			public System.Drawing.Point ptMaxPosition;
-			public System.Drawing.Rectangle rcNormalPosition;
-		}
-
-		internal enum ShowWindowCommands: int
-		{
-			Hide = 0,
-			Normal = 1,
-			Minimized = 2,
-			Maximized = 3,
 		}
 	}
 }

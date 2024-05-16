@@ -45,5 +45,27 @@
 			public RECT rcWork;
 			public uint dwFlags;
 		}
+		internal struct WINDOWPLACEMENT
+		{
+			public int length;
+			public int flags;
+			public ShowWindowCommands showCmd;
+			public System.Drawing.Point ptMinPosition;
+			public System.Drawing.Point ptMaxPosition;
+			public System.Drawing.Rectangle rcNormalPosition;
+		}
+		internal enum ShowWindowCommands: int
+		{
+			Hide = 0,
+			Normal = 1,
+			Minimized = 2,
+			Maximized = 3,
+		}
+		internal enum WindowState: int
+		{
+			Normal = 0,
+			Maximized = 1,
+			Minimized = 2,
+		}
 	}
 }

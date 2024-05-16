@@ -7,7 +7,6 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
-    <AssemblyName>dvdify</AssemblyName>
     <UseWindowsForms>True</UseWindowsForms>
   </PropertyGroup>
 

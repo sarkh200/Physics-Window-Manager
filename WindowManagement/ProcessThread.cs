@@ -6,9 +6,10 @@ namespace Physics_Window_Manager.WindowManagement
 	{
 		public static void Process(ProcessData data)
 		{
-			int [] velocityOptions = [-1, 1];
+			bool isGrounded = false;
+			int [] velocityOptions = [-10, 10];
 			Random random = new();
-			data.Velocity = (velocityOptions [random.Next(velocityOptions.Length)], velocityOptions [random.Next(velocityOptions.Length)]);
+			data.Velocity = (0/*velocityOptions [random.Next(velocityOptions.Length)]*/, velocityOptions [random.Next(velocityOptions.Length)]);
 			try
 			{
 				_ = data.DataProcess.HasExited;
@@ -19,9 +20,6 @@ namespace Physics_Window_Manager.WindowManagement
 			}
 			while (!data.DataProcess.HasExited)
 			{
-				//Console.WriteLine($"{data.DataProcess.ProcessName} ({data.WindowWidth}, {data.WindowHeight}):{data.WindowPos}");
-				//data.Velocity.y += 1;
-
 				ProcessData.RECT borders = new()
 				{
 					Left = 8,
@@ -33,9 +31,10 @@ namespace Physics_Window_Manager.WindowManagement
 				if (data.StateOfWindow != ProcessData.WindowState.Maximized)
 				{
 					Calculate.CalculateWindowPosition(data.WindowPos, data.Velocity, out (int x, int y) windowPos);
-					Calculate.CalculateCollisions(windowPos, data.Velocity, data.WindowDims, data.ScreenDims, borders, 1, out windowPos, out data.Velocity);
+					Calculate.CalculateCollisions(windowPos, data.Velocity, data.WindowDims, data.ScreenDims, borders, 3, out windowPos, out data.Velocity, out isGrounded);
 					MoveWindow.SetWindowPosition(data.DataProcess, windowPos);
 				}
+				if (!isGrounded) data.Velocity.y += 1;
 				Thread.Sleep(1);
 			}
 		}

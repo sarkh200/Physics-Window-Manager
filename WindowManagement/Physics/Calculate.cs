@@ -6,7 +6,7 @@
 			outPos = (position.x + velocity.x, position.y + velocity.y);
 		public static void CalculateVelocity((int x, int y) displacement, int time, out (int x, int y) outDisplacement) =>
 			outDisplacement = (displacement.x / time, displacement.y / time);
-		public static void CalculateCollisions((int x, int y) position, (int x, int y) velocity, (int width, int height) windowDims, (int width, int height) screenDims, ProcessData.RECT borders, int elasticity, out (int x, int y) outPos, out (int x, int y) outVelocity)
+		public static void CalculateCollisions((int x, int y) position, (int x, int y) velocity, (int width, int height) windowDims, (int width, int height) screenDims, ProcessData.RECT borders, int elasticity, out (int x, int y) outPos, out (int x, int y) outVelocity, out bool isGrounded)
 		{
 			if (position.x < -borders.Left)
 			{
@@ -26,16 +26,19 @@
 
 			if (position.y < -borders.Top)
 			{
+				isGrounded = true;
 				outPos.y = -borders.Top + 1;
 				outVelocity.y = Math.Abs(velocity.y / elasticity);
 			}
 			else if (position.y + windowDims.height > screenDims.height + borders.Bottom)
 			{
+				isGrounded = false;
 				outPos.y = screenDims.height - windowDims.height + borders.Bottom;
 				outVelocity.y = Math.Abs(velocity.y / elasticity) * -1;
 			}
 			else
 			{
+				isGrounded = false;
 				outPos.y = position.y;
 				outVelocity.y = velocity.y;
 			}
