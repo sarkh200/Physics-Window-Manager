@@ -29,10 +29,6 @@ namespace Physics_Window_Manager.Main
 				Thread t = new(() => WindowManagement.ProcessThread.Process(data));
 				t.Start();
 			}
-			while (true)
-			{
-				Thread.Sleep(1000);
-			}
 
 			void WindowOpened(object sender, AutomationEventArgs automationEventArgs)
 			{
@@ -41,8 +37,11 @@ namespace Physics_Window_Manager.Main
 				{
 					Process p = Process.GetProcessById(element.Current.ProcessId);
 					ProcessData data = new() { DataProcess = p };
-					Thread t = new(() => WindowManagement.ProcessThread.Process(data));
-					t.Start();
+					if (p.ProcessName != "SnippingTool")
+					{
+						Thread t = new(() => WindowManagement.ProcessThread.Process(data));
+						t.Start();
+					}
 				}
 			}
 		}
