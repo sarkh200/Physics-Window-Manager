@@ -9,7 +9,7 @@
 		{
 			if (time != 0)
 			{
-				outDisplacement = (displacement.x / time, displacement.y / time);
+				outDisplacement = (displacement.x / (time / 10), displacement.y / (time / 10));
 			}
 			else
 			{
