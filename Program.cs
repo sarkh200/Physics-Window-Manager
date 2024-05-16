@@ -8,6 +8,8 @@ namespace Physics_Window_Manager.Main
 	{
 		static void Main(string [] args)
 		{
+			ManualResetEvent windowEvent = new(false);
+
 			if (args.Length > 0 && args [0] == "--kill")
 			{
 				KillAll.Kill();
@@ -30,6 +32,12 @@ namespace Physics_Window_Manager.Main
 				t.Start();
 			}
 
+			while (true)
+			{
+				windowEvent.WaitOne();
+				windowEvent.Reset();
+			}
+
 			void WindowOpened(object sender, AutomationEventArgs automationEventArgs)
 			{
 				var element = sender as AutomationElement;
@@ -43,6 +51,7 @@ namespace Physics_Window_Manager.Main
 						t.Start();
 					}
 				}
+				windowEvent.Set();
 			}
 		}
 	}
