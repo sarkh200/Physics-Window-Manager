@@ -1,32 +1,57 @@
-﻿using Physics_Window_Manager.Window;
+﻿using Physics_Window_Manager.WindowManagement;
+using System.Diagnostics;
+using System.Windows.Automation;
 
 namespace Physics_Window_Manager.Main
 {
 	class MainWindow
 	{
-		static void Main()
+		static void Main(string [] args)
 		{
+			ManualResetEvent windowEvent = new(false);
+
+			if (args.Length > 0 && args [0] == "--kill")
+			{
+				KillAll.Kill();
+				Environment.Exit(0);
+			}
+
 			List<Thread> threads = [];
 			List<int> oldProcessData = [];
-			for (int i = 0; i < 1000; i++)
+
+			Automation.AddAutomationEventHandler(
+						eventId: WindowPattern.WindowOpenedEvent,
+						element: AutomationElement.RootElement,
+						scope: TreeScope.Children,
+						eventHandler: WindowOpened);
+
+			ProcessDataManager.SetUpProcessDataArray(out ProcessData [] graphicalProcessData);
+			foreach (ProcessData data in graphicalProcessData)
 			{
-				ProcessDataManager.SetUpProcessDataArray(out ProcessData [] graphicalProcessData);
-				foreach (ProcessData data in graphicalProcessData)
+				Thread t = new(() => WindowManagement.ProcessThread.Process(data));
+				t.Start();
+			}
+
+			while (true)
+			{
+				windowEvent.WaitOne();
+				windowEvent.Reset();
+			}
+
+			void WindowOpened(object sender, AutomationEventArgs automationEventArgs)
+			{
+				var element = sender as AutomationElement;
+				if (element != null)
 				{
-					//Console.WriteLine(data.DataProcess.ProcessName);
-					if (!oldProcessData.Contains(data.DataProcess.Id) && data.DataProcess.ProcessName == "WindowsTerminal")
+					Process p = Process.GetProcessById(element.Current.ProcessId);
+					ProcessData data = new() { DataProcess = p };
+					if (p.ProcessName != "SnippingTool")
 					{
-						Thread t = new(() => ProcessThread.Process(data));
+						Thread t = new(() => WindowManagement.ProcessThread.Process(data));
 						t.Start();
-						threads.Add(t);
 					}
 				}
-				oldProcessData = [];
-				foreach (ProcessData data in graphicalProcessData)
-				{
-					oldProcessData.Add(data.DataProcess.Id);
-				}
-				Thread.Sleep(300);
+				windowEvent.Set();
 			}
 		}
 	}

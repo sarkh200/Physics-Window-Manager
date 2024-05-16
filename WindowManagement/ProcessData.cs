@@ -1,8 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Runtime.InteropServices;
-using System.Windows;
 
-namespace Physics_Window_Manager.Window
+namespace Physics_Window_Manager.WindowManagement
 {
 
 	internal partial class ProcessData
@@ -20,10 +19,13 @@ namespace Physics_Window_Manager.Window
 		//[DllImport("user32.dll")]
 		//private static extern bool GetMonitorInfoA(IntPtr hMonitor, out MONITORINFO info);
 
-		required public Process DataProcess { get; set; } = new();
+		required public Process DataProcess { get; set; }
 
 		//GetMonitorInfoA(MonitorFromWindow(process.MainWindowHandle, MONITOR_DEFAULTTOPRIMARY), out MONITORINFO info);
-		public static (int width, int height) ScreenDims => ((int) SystemParameters.WorkArea.Width, (int) SystemParameters.WorkArea.Height);
+
+		public Screen MainScreen => Screen.FromHandle(DataProcess.MainWindowHandle);
+
+		public (int width, int height) ScreenDims => ((int) MainScreen.WorkingArea.Width, (int) MainScreen.WorkingArea.Height);
 
 		public (int widht, int height) WindowDims => (WindowRect.Right - WindowRect.Left, WindowRect.Bottom - WindowRect.Top);
 
@@ -46,7 +48,6 @@ namespace Physics_Window_Manager.Window
 				return windowRect;
 			}
 		}
-
 
 		public WindowState StateOfWindow
 		{

@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Runtime.InteropServices;
 
-namespace Physics_Window_Manager.Window
+namespace Physics_Window_Manager.WindowManagement
 {
 	internal class MoveWindow
 	{
