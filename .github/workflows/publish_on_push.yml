@@ -29,6 +29,7 @@ jobs:
           body: 'Release built by GitHub Actions'
           draft: true
           prerelease: false
+          token: ${{ secrets.GITHUB_TOKEN }} 
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v3
