@@ -31,7 +31,7 @@ namespace Physics_Window_Manager.WindowManagement
 			{
 				if (data.StateOfWindow != ProcessData.WindowState.Maximized)
 				{
-					if (!(Calculate.IsPointWithinRect(Cursor.Position, data.WindowRect) && (Control.MouseButtons & MouseButtons.Left) != 0))
+					if (!(Calculate.IsPointWithinRect(Cursor.Position, data.WindowRect) && (Control.MouseButtons & MouseButtons.Left) != 0 && data.IsFocussed))
 					{
 						Calculate.CalculateWindowPosition(data.WindowPos, data.Velocity, out (int x, int y) windowPos);
 						Calculate.CalculateCollisions(windowPos, data.Velocity, data.WindowDims, data.ScreenDims, borders, 1, out windowPos, out data.Velocity);
