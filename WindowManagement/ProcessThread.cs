@@ -32,7 +32,7 @@ namespace Physics_Window_Manager.WindowManagement
 			{
 				if (data.StateOfWindow != ProcessData.WindowState.Maximized)
 				{
-					if (!(Calculate.IsPointWithinRect(Cursor.Position, data.WindowRect) && (Control.MouseButtons & MouseButtons.Left) != 0))
+					if (!(Calculate.IsPointWithinRect(Cursor.Position, data.WindowRect) && (Control.MouseButtons & MouseButtons.Left) != 0 && data.IsFocussed))
 					{
 						if (point.x != int.MinValue && point.y != int.MinValue)
 						{
