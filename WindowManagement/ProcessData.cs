@@ -25,6 +25,14 @@ namespace Physics_Window_Manager.WindowManagement
 			}
 		}
 
+		public bool IsFocussed
+		{
+			get
+			{
+				return GetForegroundWindow() == DataProcess.MainWindowHandle;
+			}
+		}
+
 		public RECT WindowRect
 		{
 			get
