@@ -17,7 +17,7 @@
 			}
 		}
 
-		public static void CalculateCollisions((int x, int y) position, (int x, int y) velocity, (int width, int height) windowDims, (int width, int height) screenDims, ProcessData.RECT borders, int elasticity, out (int x, int y) outPos, out (int x, int y) outVelocity, out bool isGrounded)
+		public static void CalculateCollisions((int x, int y) position, (int x, int y) velocity, (int width, int height) windowDims, (int width, int height) screenDims, ProcessData.RECT borders, int elasticity, out (int x, int y) outPos, out (int x, int y) outVelocity)
 		{
 			if (position.x < -borders.Left)
 			{
@@ -37,19 +37,16 @@
 
 			if (position.y < -borders.Top)
 			{
-				isGrounded = false;
 				outPos.y = -borders.Top + 1;
 				outVelocity.y = Math.Abs(velocity.y / elasticity);
 			}
 			else if (position.y + windowDims.height > screenDims.height + borders.Bottom)
 			{
-				isGrounded = true;
 				outPos.y = screenDims.height - windowDims.height + borders.Bottom;
 				outVelocity.y = Math.Abs(velocity.y / elasticity) * -1;
 			}
 			else
 			{
-				isGrounded = false;
 				outPos.y = position.y;
 				outVelocity.y = velocity.y;
 			}
