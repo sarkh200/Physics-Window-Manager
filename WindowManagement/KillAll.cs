@@ -8,7 +8,7 @@ namespace Physics_Window_Manager.WindowManagement
 		{
 			foreach (Process p in Process.GetProcesses())
 			{
-				if (p.ProcessName == "gravify")
+				if (p.ProcessName == "dvdify")
 				{
 					p.Kill();
 				}
