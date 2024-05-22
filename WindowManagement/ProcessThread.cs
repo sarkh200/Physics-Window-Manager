@@ -26,7 +26,7 @@ namespace Physics_Window_Manager.WindowManagement
 				Right = 8,
 				Bottom = 8
 			};
-			
+
 			while (!data.DataProcess.HasExited)
 			{
 				if (data.StateOfWindow != ProcessData.WindowState.Maximized)
